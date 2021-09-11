@@ -54,7 +54,7 @@ $categories = get_categories($cat_args);
             <a class="page-link" href="#">Previous</a>
         </li>
 
-        <!-- Pagination -->
+        <!-- Pagination Numbers -->
         <li id="page-items" class="d-flex"></li>
 
         <li class="page-item arrow next">
