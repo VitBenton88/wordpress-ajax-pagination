@@ -50,14 +50,14 @@ $categories = get_categories($cat_args);
 
     <nav id="pagination" aria-label="Page navigation" class="mt-4 d-none">
         <ul class="pagination justify-content-center">
-        <li class="page-item prev">
+        <li class="page-item arrow prev">
             <a class="page-link" href="#">Previous</a>
         </li>
 
         <!-- Pagination -->
         <li id="page-items" class="d-flex"></li>
 
-        <li class="page-item next">
+        <li class="page-item arrow next">
             <a class="page-link" href="#">Next</a>
         </li>
         </ul>
@@ -67,9 +67,9 @@ $categories = get_categories($cat_args);
 
 <script type="text/javascript">
     $(document).ready(function () {
-        const excerpt_char_limit = 50;
         const $pagination = $('#pagination');
         const $spinner = $('#spinner');
+        const excerpt_char_limit = 50;
         const btn_label = 'Read More';
         let category_id = 'all';
         let paged = 1;
@@ -158,7 +158,7 @@ $categories = get_categories($cat_args);
         // query on load
         queryPosts();
 
-        // filter feed on-click
+        // category clicks
         $('.cat-btn').click(function() {
             const $this = $(this);
             paged = 1;
@@ -168,7 +168,7 @@ $categories = get_categories($cat_args);
             queryPosts();
         });
 
-        // pagination number click
+        // pagination number clicks
         $('body').on('click', '.page-item a', function(e) {
             e.preventDefault();
             const $this = $(this);
@@ -179,18 +179,16 @@ $categories = get_categories($cat_args);
             queryPosts();
         });
 
-        // pagination previous click
-        $('.page-item.prev a').click(function(e) {
+        // pagination arrow clicks
+        $('.page-item.arrow a').click(function(e) {
             e.preventDefault();
-            paged--;
-            queryPosts();
-            return false;
-        });
 
-        // pagination next click
-        $('.page-item.next a').click(function(e) {
-            e.preventDefault();
-            paged++;
+            if ( $(this).parent().hasClass('prev') ) {
+                paged--;
+            } else {
+                paged++;
+            }
+
             queryPosts();
             return false;
         });
