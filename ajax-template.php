@@ -167,7 +167,7 @@ $categories = get_categories($cat_args);
             paged = 1;
             $('.cat-btn.active').removeClass('active');
             $this.addClass('active');
-            category_id = $this.data('id');
+            category_id = parseInt($this.data('id'));
             queryPosts();
         });
 
