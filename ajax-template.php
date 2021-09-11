@@ -98,7 +98,7 @@ $categories = get_categories($cat_args);
                     // hide pagination
                     $pagination.addClass('d-none');
                     // enable next/prev
-                    $('.page-item').removeClass('disabled')
+                    $('.page-item.arrow').removeClass('disabled')
                 },
                 success: function(response) {
                     console.log('Response: ', response); // see the raw response
