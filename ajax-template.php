@@ -21,6 +21,7 @@ $categories = get_categories($cat_args);
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 <!-- Bootstrap End -->
 
+<!-- category filters -->
 <section class="container mt-5">
     <?php if ( $categories ) : ?>
         <div class="row">
@@ -39,27 +40,29 @@ $categories = get_categories($cat_args);
         </div>
     <?php endif; ?>
     
-    <!-- The feed -->
+    <!-- the feed -->
     <div id="posts-feed" class="row mt-4 d-flex"></div>
-
+    
+    <!-- spinner/loader -->
     <div id="spinner" class="d-flex justify-content-center">
         <div id="spinner" class="spinner-border" role="status">
             <span class="visually-hidden">Loading...</span>
         </div>
     </div>
-
+    
+    <!-- pagination nav -->
     <nav id="pagination" aria-label="Page navigation" class="mt-4 d-none">
         <ul class="pagination justify-content-center">
-        <li class="page-item arrow prev">
-            <a class="page-link" href="#">Previous</a>
-        </li>
+            <li class="page-item arrow prev">
+                <a class="page-link" href="#">Previous</a>
+            </li>
 
-        <!-- Pagination Numbers -->
-        <li id="page-items" class="d-flex"></li>
+            <!-- pagination numbers, populated via JS -->
+            <li id="page-items" class="d-flex"></li>
 
-        <li class="page-item arrow next">
-            <a class="page-link" href="#">Next</a>
-        </li>
+            <li class="page-item arrow next">
+                <a class="page-link" href="#">Next</a>
+            </li>
         </ul>
     </nav>
     
