@@ -128,7 +128,7 @@ $categories = get_categories($cat_args);
                         if (max_num_pages && max_num_pages > 1) {
                             for (let index = 0; index < max_num_pages; index++) {
                                 const page_num = index + 1;
-                                page_append_value += `<li class="page-item${page_num === paged ? ' active' : ''}"><a class="page-link" href="#">${page_num}</a></li>`
+                                page_append_value += `<li class="page-item num${page_num === paged ? ' active' : ''}"><a class="page-link" href="#">${page_num}</a></li>`
                             }
                             // show pagination
                             $pagination.removeClass('d-none');
@@ -169,7 +169,7 @@ $categories = get_categories($cat_args);
         });
 
         // pagination number clicks
-        $('body').on('click', '.page-item a', function(e) {
+        $('body').on('click', '.page-item.num a', function(e) {
             e.preventDefault();
             const $this = $(this);
 
