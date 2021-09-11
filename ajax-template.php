@@ -38,7 +38,8 @@ $categories = get_categories($cat_args);
             </div>
         </div>
     <?php endif; ?>
-
+    
+    <!-- The feed -->
     <div id="posts-feed" class="row mt-4 d-flex"></div>
 
     <div id="spinner" class="d-flex justify-content-center">
