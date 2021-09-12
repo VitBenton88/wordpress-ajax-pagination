@@ -78,6 +78,55 @@ $categories = get_categories($cat_args);
         let paged = 1;
         let posts_per_page = 6;
 
+        function getPageHTML(page_num = undefined) {
+            let page_html = false;
+            if (page_num) {
+                const parent_classes = ['page-item', 'num', page_num === paged ? 'active' : null].join(' ').trim();
+                page_html = `<li class="${parent_classes}"><a class="page-link" href="#">${page_num}</a></li>`;
+            }
+
+            return page_html;
+        }
+
+        function getPostHTML(post = undefined, thumbnails_arr = []) {
+            let post_html = false;
+            if (post && thumbnails_arr) {
+                // destructure post
+                const { guid, ID, post_excerpt, post_title, } = post;
+                // get thumb url
+                const thumbnail_url = thumbnails_arr[ID];
+                // format excerpt
+                let post_excerpt_toprint = formatExcerpt(post_excerpt);
+
+                // DOM structure post in feed
+                post_html = 
+                `<div id="${ID}" class="col-6 col-md-4 mt-3 d-flex">
+                    <div class="card w-100">
+                        <img src="${thumbnail_url}" alt="${post_title}" class="card-img-top">
+                        <div class="card-body">
+                            <h5 class="card-title">${post_title}</h5>
+                            <p class="card-text">${post_excerpt_toprint}</p>
+                            <a href="${guid}" class="btn btn-primary">${btn_label}</a>
+                        </div>
+                    </div>
+                </div>`;
+            }
+
+            return post_html;
+        }
+
+        function formatExcerpt(post_excerpt = '') {
+            let post_excerpt_toprint = false;
+            if (post_excerpt) {
+                // truncate excerpt.
+                const post_excerpt_truncated = post_excerpt.substring(0, excerpt_char_limit).trim();
+                // append ellipses to truncated excerpt.
+                post_excerpt_toprint = `${post_excerpt_truncated}&nbsp;...`;
+            }
+
+            return post_excerpt_toprint;
+        }
+
         function queryPosts() {
             // make ajax call to server
             $.ajax({
@@ -108,42 +157,19 @@ $categories = get_categories($cat_args);
                     let page_append_value = '';
 
                     if (posts) {
-                        // collect post data for DOM elements
+                        // collect post DOM elements
                         for (let index = 0; index < posts.length; index++) {
-                            // destructure post
-                            const { guid, ID, post_excerpt, post_title, } = posts[index];
-                            // get thumb url
-                            const thumbnail_url = thumbnails[ID];
-
-                            // get excerpt, truncate if needed.
-                            let post_excerpt_toprint = post_excerpt;
-                            if (post_excerpt && post_excerpt.length > excerpt_char_limit) {
-                                // truncate excerpt.
-                                const post_excerpt_truncated = post_excerpt.substring(0, excerpt_char_limit).trim();
-                                // append ellipses to truncated excerpt.
-                                post_excerpt_toprint = `${post_excerpt_truncated}&nbsp;...`;
-                            }
-
-                            // DOM structure of each post in feed
-                            posts_append_value +=
-                            `<div id="${ID}" class="col-6 col-md-4 mt-3 d-flex">
-                                <div class="card w-100">
-                                    <img src="${thumbnail_url}" alt="${post_title}" class="card-img-top">
-                                    <div class="card-body">
-                                        <h5 class="card-title">${post_title}</h5>
-                                        <p class="card-text">${post_excerpt_toprint}</p>
-                                        <a href="${guid}" class="btn btn-primary">${btn_label}</a>
-                                    </div>
-                                </div>
-                            </div>`;
+                            const post = posts[index];
+                            const thumbnails_arr = thumbnails;
+                            posts_append_value += getPostHTML(post, thumbnails_arr);
                         }
 
-                        // collect pagination DOM elements
+                        // configure pagination
                         if (max_num_pages && max_num_pages > 1) {
+                            // collect pagination DOM elements
                             for (let index = 0; index < max_num_pages; index++) {
                                 const page_num = index + 1;
-                                const parent_classes = ['page-item', 'num', page_num === paged ? ' active' : null].join(' ');
-                                page_append_value += `<li class="${parent_classes}"><a class="page-link" href="#">${page_num}</a></li>`
+                                page_append_value += getPageHTML(page_num);
                             }
                             // show pagination
                             $pagination.removeClass('d-none');
@@ -176,7 +202,7 @@ $categories = get_categories($cat_args);
         // category clicks
         $('.cat-btn').click(function() {
             const $this = $(this);
-            paged = 1;
+            paged = 1; // reset paged location
             $('.cat-btn.active').removeClass('active');
             $this.addClass('active');
             category_id = parseInt($this.data('id'));
