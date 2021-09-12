@@ -26,7 +26,7 @@ $categories = get_categories($cat_args);
     <?php if ( $categories ) : ?>
         <div class="row">
             <div class="col-12 btn-group">
-                <button type="button" class="btn btn-outline-primary cat-btn active" data-id="all">All</button>
+                <button type="button" class="btn btn-outline-primary cat-btn active" data-id="-1">All</button>
                 <?php foreach($categories as $category): ?>
                     <button type="button" class="btn btn-outline-primary cat-btn" data-id="<?= $category->term_id ?>"><?= $category->name ?></button>
                 <?php endforeach; ?>
@@ -74,7 +74,7 @@ $categories = get_categories($cat_args);
         const $spinner = $('#spinner');
         const excerpt_char_limit = 50;
         const btn_label = 'Read More';
-        let category_id = 'all'; // default category is 'all'
+        let category_id = '-1'; // default category is 'all'
         let paged = 1;
         let posts_per_page = 6;
 
