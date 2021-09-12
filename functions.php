@@ -7,8 +7,6 @@ function paginate_posts() {
 	$response = array();
 
 	if ($paged && $posts_per_page && $category_id) {
-		$thumbnails = array();
-
 		// the query
 		$args = array('posts_per_page'	=> $posts_per_page, 'paged' => $paged, 'category__in' => $category_id );
 		$query = new WP_Query( $args );
@@ -18,10 +16,12 @@ function paginate_posts() {
 		$max_num_pages = $query->max_num_pages;
 		
 		// manually collect post thumbnails in associative array, key is post's ID
+		$thumbnails = array();
+		// set a default image url for posts without a featured image
+		$default_thumbnail = '';
+
 		if ( $query->have_posts() ) {
 			foreach ($posts as $post) {
-				// set a default image url for posts without a featured image
-				$default_thumbnail = '';
 				// change thumbnail size if needed, source: https://developer.wordpress.org/reference/functions/get_the_post_thumbnail_url/
 				$post_thumbnail = get_the_post_thumbnail_url( $post, 'full' ); 
 				// add to thumbnail array
