@@ -10,7 +10,7 @@ function paginate_posts() {
 		$thumbnails = array();
 
 		// the query
-		$args = array('posts_per_page'	=> $posts_per_page, 'paged' => $paged, $args['category__in'] = $category_id );
+		$args = array('posts_per_page'	=> $posts_per_page, 'paged' => $paged, 'category__in' => $category_id );
 		$query = new WP_Query( $args );
 	
 		// collect data
