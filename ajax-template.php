@@ -112,15 +112,23 @@ $categories = get_categories($cat_args);
                         for (let index = 0; index < posts.length; index++) {
                             // destructure post
                             const { guid, ID, post_excerpt, post_title, } = posts[index];
+                            // get thumb url
                             const thumbnail_url = thumbnails[ID];
-                            const post_excerpt_truncated = post_excerpt ? post_excerpt.substring(0, excerpt_char_limit) : '';
-                            const post_excerpt_toprint = post_excerpt_truncated ? `${post_excerpt_truncated}&nbsp;...` : '';
+
+                            // get excerpt, truncate if needed.
+                            let post_excerpt_toprint = post_excerpt;
+                            if (post_excerpt && post_excerpt.length > excerpt_char_limit) {
+                                // truncate excerpt.
+                                const post_excerpt_truncated = post_excerpt.substring(0, excerpt_char_limit).trim();
+                                // append ellipses to truncated excerpt.
+                                post_excerpt_toprint = `${post_excerpt_truncated}&nbsp;...`;
+                            }
 
                             // DOM structure of each post in feed
                             posts_append_value +=
                             `<div id="${ID}" class="col-6 col-md-4 mt-3 d-flex">
                                 <div class="card w-100">
-                                    <img src="${thumbnail_url}" class="card-img-top" alt="${post_title}">
+                                    <img src="${thumbnail_url}" alt="${post_title}" class="card-img-top">
                                     <div class="card-body">
                                         <h5 class="card-title">${post_title}</h5>
                                         <p class="card-text">${post_excerpt_toprint}</p>
@@ -134,15 +142,16 @@ $categories = get_categories($cat_args);
                         if (max_num_pages && max_num_pages > 1) {
                             for (let index = 0; index < max_num_pages; index++) {
                                 const page_num = index + 1;
-                                page_append_value += `<li class="page-item num${page_num === paged ? ' active' : ''}"><a class="page-link" href="#">${page_num}</a></li>`
+                                const parent_classes = ['page-item', 'num', page_num === paged ? ' active' : null].join(' ');
+                                page_append_value += `<li class="${parent_classes}"><a class="page-link" href="#">${page_num}</a></li>`
                             }
                             // show pagination
                             $pagination.removeClass('d-none');
                             // disable next/prev if at end/beginning of pagination
                             if (paged === max_num_pages) {
-                                $('.page-item.next').addClass('disabled')
+                                $('.page-item.next').addClass('disabled');
                             } else if (paged === 1) {
-                                $('.page-item.prev').addClass('disabled')
+                                $('.page-item.prev').addClass('disabled');
                             }
                         }
                     } else {
