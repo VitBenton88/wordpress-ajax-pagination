@@ -20,7 +20,12 @@ function paginate_posts() {
 		// manually collect post thumbnails in associative array, key is post's ID
 		if ( $query->have_posts() ) {
 			foreach ($posts as $post) {
-				$thumbnails[$post->ID] = get_the_post_thumbnail_url( $post, 'full' ); // change thumbnail size if needed
+				// set a default image url for posts without a featured image
+				$default_thumbnail = '';
+				// change thumbnail size if needed, source: https://developer.wordpress.org/reference/functions/get_the_post_thumbnail_url/
+				$post_thumbnail = get_the_post_thumbnail_url( $post, 'full' ); 
+				// add to thumbnail array
+				$thumbnails[$post->ID] = $post_thumbnail ? $post_thumbnail : $default_thumbnail;
 			}
 		}
 	
