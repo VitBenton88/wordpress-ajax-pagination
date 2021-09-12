@@ -5,9 +5,9 @@ function paginate_posts() {
     $posts_per_page = $_GET['posts_per_page'];
     $category_id = $_GET['category_id'];
 	$thumbnails = array();
-	$args = array('posts_per_page'	=> $posts_per_page, 'paged' => $paged ); // essentially the 'all' filter
+	$args = array('posts_per_page'	=> $posts_per_page, 'paged' => $paged ); // by default, query all posts
 
-	if ($category_id !== 'all') {
+	if ($category_id !== 'all') { // apply a category filter to query when needed 
 		$args['category__in'] = $category_id;
 	}
 
@@ -15,12 +15,14 @@ function paginate_posts() {
 	$posts = $query->posts;
 	$max_num_pages = $query->max_num_pages;
 	
+	// manually collect post thumbnails in associative array, key is post's ID
 	if ( $query->have_posts() ) {
 		foreach ($posts as $post) {
-			$thumbnails[$post->ID] = get_the_post_thumbnail_url( $post, 'full' );
+			$thumbnails[$post->ID] = get_the_post_thumbnail_url( $post, 'full' ); // change thumbnail size if needed
 		}
 	}
 
+	// prep response object
 	$response = array('posts' => $posts, 'thumbnails' => $thumbnails, 'max_num_pages' => $max_num_pages);
 	
     echo json_encode($response);

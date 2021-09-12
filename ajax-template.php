@@ -40,7 +40,7 @@ $categories = get_categories($cat_args);
         </div>
     <?php endif; ?>
     
-    <!-- the feed -->
+    <!-- the feed, populated via JS -->
     <div id="posts-feed" class="row mt-4 d-flex"></div>
     
     <!-- spinner/loader -->
@@ -74,7 +74,7 @@ $categories = get_categories($cat_args);
         const $spinner = $('#spinner');
         const excerpt_char_limit = 50;
         const btn_label = 'Read More';
-        let category_id = 'all';
+        let category_id = 'all'; // default category is 'all'
         let paged = 1;
         let posts_per_page = 6;
 
@@ -83,7 +83,7 @@ $categories = get_categories($cat_args);
             $.ajax({
                 type : "GET",
                 dataType : "json",
-                url : "<?= admin_url('admin-ajax.php'); ?>",
+                url : "<?= admin_url('admin-ajax.php'); ?>", // 
                 data : {
                     action: "paginate_posts",
                     paged,
@@ -113,14 +113,17 @@ $categories = get_categories($cat_args);
                             // destructure post
                             const { guid, ID, post_excerpt, post_title, } = posts[index];
                             const thumbnail_url = thumbnails[ID];
+                            const post_excerpt_truncated = post_excerpt ? post_excerpt.substring(0, excerpt_char_limit) : '';
+                            const post_excerpt_toprint = post_excerpt_truncated ? `${post_excerpt_truncated}&nbsp;...` : '';
 
+                            // DOM structure of each post in feed
                             posts_append_value +=
                             `<div id="${ID}" class="col-6 col-md-4 mt-3 d-flex">
                                 <div class="card w-100">
                                     <img src="${thumbnail_url}" class="card-img-top" alt="${post_title}">
                                     <div class="card-body">
                                         <h5 class="card-title">${post_title}</h5>
-                                        <p class="card-text">${post_excerpt ? `${post_excerpt.substring(0, excerpt_char_limit)}&nbsp;...` : ''}</p>
+                                        <p class="card-text">${post_excerpt_toprint}</p>
                                         <a href="${guid}" class="btn btn-primary">${btn_label}</a>
                                     </div>
                                 </div>
@@ -135,7 +138,7 @@ $categories = get_categories($cat_args);
                             }
                             // show pagination
                             $pagination.removeClass('d-none');
-                            // disable next/prev if needed
+                            // disable next/prev if at end/beginning of pagination
                             if (paged === max_num_pages) {
                                 $('.page-item.next').addClass('disabled')
                             } else if (paged === 1) {
