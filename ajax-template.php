@@ -160,8 +160,7 @@ $categories = get_categories($cat_args);
                         // collect post DOM elements
                         for (let index = 0; index < posts.length; index++) {
                             const post = posts[index];
-                            const thumbnails_arr = thumbnails;
-                            posts_append_value += getPostHTML(post, thumbnails_arr);
+                            posts_append_value += getPostHTML(post, thumbnails);
                         }
 
                         // configure pagination
