@@ -74,7 +74,7 @@ $categories = get_categories($cat_args);
         const $spinner = $('#spinner');
         const excerpt_char_limit = 50;
         const btn_label = 'Read More';
-        let category_id = '-1'; // default category is 'all'
+        let category_id = -1; // default category is 'all'
         let paged = 1;
         let posts_per_page = 6;
 
@@ -83,7 +83,7 @@ $categories = get_categories($cat_args);
             $.ajax({
                 type : "GET",
                 dataType : "json",
-                url : "<?= admin_url('admin-ajax.php'); ?>", // 
+                url : "<?= admin_url('admin-ajax.php'); ?>", // IMPORTANT: change if separating into js file
                 data : {
                     action: "paginate_posts",
                     paged,
