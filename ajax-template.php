@@ -9,6 +9,8 @@ $cat_args = array(
     'parent'        => 0 // Ensures only top-level categories are used
 );
 $categories = get_categories($cat_args);
+
+get_header();
 ?>
 
 <!-- jquery if needed -->
@@ -69,7 +71,7 @@ $categories = get_categories($cat_args);
 </section>
 
 <script type="text/javascript">
-    $(document).ready(function () {
+    jQuery(document).ready(function () {
         const $pagination = $('#pagination');
         const $spinner = $('#spinner');
         const excerpt_char_limit = 50;
