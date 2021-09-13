@@ -116,7 +116,7 @@ $categories = get_categories($cat_args);
         }
 
         function formatExcerpt(post_excerpt = '') {
-            let post_excerpt_toprint = false;
+            let post_excerpt_toprint = post_excerpt;
             if (post_excerpt) {
                 // truncate excerpt.
                 const post_excerpt_truncated = post_excerpt.substring(0, excerpt_char_limit).trim();
