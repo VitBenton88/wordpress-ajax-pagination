@@ -94,7 +94,7 @@ get_header();
         let posts_per_page = 6;
 
         function getPageHTML(page_num = undefined) {
-            let page_html = false;
+            let page_html = '';
             if (page_num) {
                 const parent_classes = ['page-item', 'num', page_num === paged ? 'active' : null].join(' ').trim();
                 page_html = `<li class="${parent_classes}"><a class="page-link" href="#">${page_num}</a></li>`;
@@ -104,7 +104,7 @@ get_header();
         }
 
         function getPostHTML(post = undefined, thumbnails_arr = []) {
-            let post_html = false;
+            let post_html = '';
             if (post && thumbnails_arr) {
                 // destructure post
                 const { guid, ID, post_excerpt, post_title, } = post;
