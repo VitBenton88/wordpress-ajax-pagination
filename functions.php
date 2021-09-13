@@ -4,6 +4,7 @@ function paginate_posts() {
     $paged = $_GET['paged'];
     $posts_per_page = $_GET['posts_per_page'];
     $category_id = $_GET['category_id'];
+    $search_term = $_GET['search_term'];
 	$response = array();
 
 	if ($paged && $posts_per_page && $category_id) {
@@ -13,6 +14,7 @@ function paginate_posts() {
 			'paged' => $paged, 
 			'category__in' => $category_id,
 			'post_status' => 'publish',
+			's' => $search_term,
 		);
 		$query = new WP_Query( $args );
 	

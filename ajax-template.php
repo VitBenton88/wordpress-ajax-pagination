@@ -42,6 +42,17 @@ get_header();
         </div>
     <?php endif; ?>
     
+    <!-- search form -->
+    <form id="search" class="row mt-5">
+        <div class="col-auto">
+            <label for="term" class="visually-hidden">Password</label>
+            <input type="search" class="form-control" id="search-term">
+        </div>
+            <div class="col-auto">
+             <button type="submit" class="btn btn-primary mb-3">Search</button>
+        </div>
+    </form>
+    
     <!-- the feed, populated via JS -->
     <div id="posts-feed" class="row mt-4 d-flex"></div>
     
@@ -71,11 +82,13 @@ get_header();
 </section>
 
 <script type="text/javascript">
-    jQuery(document).ready(function () {
+    jQuery(document).ready(function ($) {
         const $pagination = $('#pagination');
         const $spinner = $('#spinner');
+        const $search_form = $('#search');
         const excerpt_char_limit = 50;
         const btn_label = 'Read More';
+        let search_term = '';
         let category_id = -1; // default category is 'all'
         let paged = 1;
         let posts_per_page = 6;
@@ -139,7 +152,8 @@ get_header();
                     action: "paginate_posts",
                     paged,
                     posts_per_page,
-                    category_id
+                    category_id,
+                    search_term
                 },
                 beforeSend: function() {
                     // clear feed & pagination
@@ -148,6 +162,8 @@ get_header();
                     $spinner.removeClass('d-none');
                     // hide pagination
                     $pagination.addClass('d-none');
+                    // hide search form
+                    $search_form.addClass('d-none');
                     // enable next/prev
                     $('.page-item.arrow').removeClass('disabled')
                 },
@@ -158,7 +174,7 @@ get_header();
                     let posts_append_value = '';
                     let page_append_value = '';
 
-                    if (posts) {
+                    if (posts.length) {
                         // collect post DOM elements
                         for (let index = 0; index < posts.length; index++) {
                             const post = posts[index];
@@ -193,6 +209,8 @@ get_header();
                 complete: function() {
                     // hide spinner
                     $spinner.addClass('d-none');
+                    // show search form
+                    $search_form.removeClass('d-none');
                 }
             });
         }
@@ -230,6 +248,16 @@ get_header();
             } else {
                 paged++;
             }
+
+            queryPosts();
+            return false;
+        });
+
+        // handle search submission
+        $search_form.submit(function(e) {
+            e.preventDefault();
+            //collect search term
+            search_term = $('#search-term').val().trim();
 
             queryPosts();
             return false;
