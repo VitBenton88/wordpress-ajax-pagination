@@ -8,7 +8,12 @@ function paginate_posts() {
 
 	if ($paged && $posts_per_page && $category_id) {
 		// the query
-		$args = array('posts_per_page'	=> $posts_per_page, 'paged' => $paged, 'category__in' => $category_id );
+		$args = array(
+			'posts_per_page' => $posts_per_page, 
+			'paged' => $paged, 
+			'category__in' => $category_id,
+			'post_status' => 'publish',
+		);
 		$query = new WP_Query( $args );
 	
 		// collect data
