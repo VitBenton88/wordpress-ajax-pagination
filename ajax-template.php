@@ -46,7 +46,7 @@ get_header();
     <form id="search" class="row mt-5">
         <div class="col-auto">
             <label for="term" class="visually-hidden">Search</label>
-            <input type="search" class="form-control" id="search-term">
+            <input type="search" class="form-control" id="search-input">
         </div>
             <div class="col-auto">
              <button type="submit" class="btn btn-primary mb-3">Search</button>
@@ -86,6 +86,7 @@ get_header();
         const $pagination = $('#pagination');
         const $spinner = $('#spinner');
         const $search_form = $('#search');
+        const $search_input = $('#search-input');
         const excerpt_char_limit = 50;
         const btn_label = 'Read More';
         let search_term = '';
@@ -257,11 +258,14 @@ get_header();
             return false;
         });
 
+        // collect search term
+        $search_input.keyup(function() {
+            search_term = $(this).val().trim();
+        });
+
         // handle search submission
         $search_form.submit(function(e) {
             e.preventDefault();
-            // collect search term
-            search_term = $('#search-term').val().trim();
 
             if (search_term) {
                 queryPosts();
