@@ -45,7 +45,7 @@ get_header();
     <!-- search form -->
     <form id="search" class="row mt-5">
         <div class="col-auto">
-            <label for="term" class="visually-hidden">Password</label>
+            <label for="term" class="visually-hidden">Search</label>
             <input type="search" class="form-control" id="search-term">
         </div>
             <div class="col-auto">
