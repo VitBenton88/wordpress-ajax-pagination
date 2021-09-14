@@ -32,7 +32,7 @@ function paginate_posts() {
 				// change thumbnail size if needed, source: https://developer.wordpress.org/reference/functions/get_the_post_thumbnail_url/
 				$post_thumbnail = get_the_post_thumbnail_url( $post, 'full' ); 
 				// add to thumbnail array
-				$thumbnails[$post->ID] = $post_thumbnail ? $post_thumbnail : $default_thumbnail;
+				$thumbnails[$post->ID] = $post_thumbnail || $default_thumbnail;
 			}
 		}
 	

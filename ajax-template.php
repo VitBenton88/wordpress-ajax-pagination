@@ -256,7 +256,7 @@ get_header();
         // handle search submission
         $search_form.submit(function(e) {
             e.preventDefault();
-            //collect search term
+            // collect search term
             search_term = $('#search-term').val().trim();
 
             queryPosts();
