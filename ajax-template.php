@@ -93,6 +93,9 @@ get_header();
         let paged = 1;
         let posts_per_page = 6;
 
+        // query on load
+        queryPosts();
+
         function getPageHTML(page_num = undefined) {
             let page_html = '';
             if (page_num) {
@@ -168,7 +171,7 @@ get_header();
                     $('.page-item.arrow').removeClass('disabled')
                 },
                 success: function(response) {
-                    console.log('Response: ', response); // see the raw response
+                    console.log('Response: ', response); // see raw response
                     // destructure response
                     const { max_num_pages, posts, thumbnails } = response;
                     let posts_append_value = '';
@@ -188,14 +191,14 @@ get_header();
                                 const page_num = index + 1;
                                 page_append_value += getPageHTML(page_num);
                             }
-                            // show pagination
-                            $pagination.removeClass('d-none');
                             // disable next/prev if at end/beginning of pagination
                             if (paged === max_num_pages) {
                                 $('.page-item.next').addClass('disabled');
                             } else if (paged === 1) {
                                 $('.page-item.prev').addClass('disabled');
                             }
+                            // show pagination
+                            $pagination.removeClass('d-none');
                         }
                     } else {
                         // show alert if no posts
@@ -215,16 +218,15 @@ get_header();
             });
         }
 
-        // query on load
-        queryPosts();
-
         // category clicks
         $('.cat-btn').click(function() {
             const $this = $(this);
             paged = 1; // reset paged location
             $('.cat-btn.active').removeClass('active');
             $this.addClass('active');
+            // record category id
             category_id = parseInt($this.data('id'));
+            // query posts
             queryPosts();
         });
 
@@ -233,9 +235,11 @@ get_header();
             e.preventDefault();
             const $this = $(this);
 
+            // guard clause
             if ($this.parent().hasClass('active')) return false;
-
+            // update paged val
             paged = parseInt($this.text());
+            // query posts
             queryPosts();
         });
 
@@ -259,7 +263,10 @@ get_header();
             // collect search term
             search_term = $('#search-term').val().trim();
 
-            queryPosts();
+            if (search_term) {
+                queryPosts();
+            }
+
             return false;
         });
 
