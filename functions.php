@@ -2,9 +2,9 @@
 
 function paginate_posts() {
     $paged = $_GET['paged'];
-    $posts_per_page = $_GET['posts_per_page'];
     $category_id = $_GET['category_id'];
     $search_term = $_GET['search_term'];
+    $posts_per_page = 6; // change as needed
 	$response = array();
 
 	if ($paged && $posts_per_page && $category_id) {

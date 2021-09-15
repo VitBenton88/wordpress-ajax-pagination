@@ -92,7 +92,6 @@ get_header();
         let search_term = '';
         let category_id = -1; // default category is 'all'
         let paged = 1;
-        let posts_per_page = 6;
 
         // query on load
         queryPosts();
@@ -155,7 +154,6 @@ get_header();
                 data : {
                     action: "paginate_posts",
                     paged,
-                    posts_per_page,
                     category_id,
                     search_term
                 },
