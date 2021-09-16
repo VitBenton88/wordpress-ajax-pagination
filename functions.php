@@ -39,7 +39,7 @@ function paginate_posts() {
 		// prep response object
 		$response['posts'] = $posts;
 		$response['thumbnails'] = $thumbnails;
-		$response['max_num_pages'] = max_num_pages;
+		$response['max_num_pages'] = $max_num_pages;
 	}
 	
     echo json_encode($response);
