@@ -167,7 +167,7 @@ get_header();
                     // hide search form
                     $search_form.addClass('d-none');
                     // enable next/prev
-                    $('.page-item.arrow').removeClass('disabled')
+                    $('.page-item.arrow').removeClass('disabled');
                 },
                 success: function(response) {
                     console.log('Response: ', response); // see raw response
